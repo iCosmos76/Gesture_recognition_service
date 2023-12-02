@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+
+<html lang="ru" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Модуль service &#8212; документация Gesture_recognition_service 0.1</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=4f649999" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=039e1c02" />
+    <script src="_static/documentation_options.js?v=490fdf2e"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/translations.js?v=29b1f277"></script>
+    <link rel="index" title="Алфавитный указатель" href="genindex.html" />
+    <link rel="search" title="Поиск" href="search.html" />
+    <link rel="next" title="Модуль service_gr" href="service_gr.html" />
+    <link rel="prev" title="Добро пожаловать в документацию сервиса по распознаванию жестов!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="service">
+<h1>Модуль service<a class="headerlink" href="#service" title="Link to this heading">¶</a></h1>
+<dl class="py class" id="module-service">
+<dt class="sig sig-object py" id="service.Service">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">service.</span></span><span class="sig-name descname"><span class="pre">Service</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_conn_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#service.Service" title="Link to this definition">¶</a></dt>
+<dd><p>Абстрактный базовый класс, представляющий собой общий сервис.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p><cite>ip_ (str)</cite> — IP-адрес для привязки сервиса.</p></li>
+<li><p><cite>port_ (int)</cite> — Номер порта для привязки сервиса.</p></li>
+<li><p><cite>n_conn_ (int, необязательно)</cite> — Максимальное количество разрешенных подключений (по умолчанию - 10).</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Атрибуты<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p><cite>ip (str)</cite> — IP-адрес сервиса.</p></li>
+<li><p><cite>port (int)</cite> — Номер порта сервиса.</p></li>
+<li><p><cite>n_conn (int)</cite> — Максимальное количество разрешенных подключений.</p></li>
+<li><p><cite>timeout (int)</cite> — Значение времени ожидания для операций сокета (по умолчанию - 3 секунды).</p></li>
+<li><p><cite>need_job_break (bool)</cite> — Флаг, указывающий, нужно ли сервису прекратить обработку задач.</p></li>
+<li><p><cite>need_job_pause (bool)</cite> — Флаг, указывающий, нужно ли сервису приостановить обработку задач.</p></li>
+<li><p><cite>server_is_open (bool)</cite> — Флаг, указывающий, открыт ли сервер.</p></li>
+<li><p><cite>need_restart (bool)</cite> — Флаг, указывающий, нужно ли сервису перезапуститься.</p></li>
+<li><p><cite>server (socket.socket)</cite> — Объект сокета для взаимодействия.</p></li>
+<li><p><cite>connected_clients (list)</cite> — Список подключенных сокетов клиентов.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Методы<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p><cite>__init__(self, ip_, port_, n_conn_)</cite> — Конструктор класса.</p></li>
+<li><p><cite>__recvall(self, sock, n) -&gt; bytearray</cite> — Приватный метод для приема определенного количества байтов из сокета.</p></li>
+<li><p><cite>__recv_msg(self, sock) -&gt; bytearray</cite> — Приватный метод для приема сообщения из сокета.</p></li>
+<li><p><cite>__send_msg(self, sock, msg) -&gt; None</cite> — Приватный метод для отправки сообщения в сокет.</p></li>
+<li><p><cite>__manage_clients(self) -&gt; None</cite> — Приватный метод для управления подключенными клиентами.</p></li>
+<li><p><cite>_do_job(self)</cite> — Абстрактный метод для выполнения конкретной задачи сервиса. Должен быть переопределен.</p></li>
+<li><p><cite>_request_handler(self, request)</cite> — Абстрактный метод для обработки запросов от клиентов.</p></li>
+<li><p><cite>_run_client(self, ip, port, request, response_handler) -&gt; None</cite> — Метод для запуска клиента и отправки запроса на сервер.</p></li>
+<li><p><cite>run_client(self, ip, port, request, response_handler) -&gt; None</cite> — Метод для запуска клиента в отдельном потоке.</p></li>
+<li><p><cite>start(self) -&gt; None</cite> — Метод для запуска сервера.</p></li>
+<li><p><cite>stop(self) -&gt; None</cite> — Метод для остановки сервера.</p></li>
+<li><p><cite>pause(self) -&gt; None</cite> — Метод для приостановки выполнения работы.</p></li>
+<li><p><cite>unpause(self) -&gt; None</cite> — Метод для возобновления выполнения работы.</p></li>
+<li><p><cite>restart(self) -&gt; None</cite> — Метод для перезапуска сервера.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Примечание<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<p>Этот класс служит абстрактным базовым классом и должен быть унаследован для реализации конкретной функциональности сервиса.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="service.Service.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_conn_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#service.Service.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Конструктор класса.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service.Service.__manage_clients">
+<span class="sig-name descname"><span class="pre">__manage_clients</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#service.Service.__manage_clients" title="Link to this definition">¶</a></dt>
+<dd><p>Приватный метод для управления подключенными клиентами.</p>
+<p>Внутренний цикл обрабатывает запросы от клиентов, основываясь на полученных данных.
+Если нет подключенных клиентов и сервер закрыт, цикл завершается.
+Если нет подключенных клиентов, происходит продолжение цикла.
+Для каждого подключенного клиента извлекается запрос и обрабатывается в соответствии с логикой:</p>
+<ul class="simple">
+<li><p><cite>disable</cite> — приостанавливает сервис и отправляет подтверждение клиенту.</p></li>
+<li><p><cite>enable</cite> — возобновляет сервис и отправляет подтверждение клиенту.</p></li>
+<li><p><cite>close</cite> или <cite>restart</cite> — останавливает сервис, добавляет соответствующую команду в список, отправляет подтверждение клиенту.</p></li>
+</ul>
+<p>В остальных случаях вызывается метод обработки запроса <cite>_request_handler</cite> и результат отправляется клиенту.</p>
+<p>При возникновении исключения выводится сообщение об ошибке, и клиентский сокет закрывается.</p>
+<p>Если в списке команд закрытия есть «restart», устанавливается флаг <cite>need_restart</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service.Service.__recv_msg">
+<span class="sig-name descname"><span class="pre">__recv_msg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sock</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytearray</span></span></span><a class="headerlink" href="#service.Service.__recv_msg" title="Link to this definition">¶</a></dt>
+<dd><p>Приватный метод для приема сообщения из сокета.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p><cite>sock (socket)</cite> — Сокет, из которого происходит прием сообщения.</p></li>
+</ul>
+<p>Получает длину сообщения из первых 4 байтов, затем вызывает <cite>__recvall</cite> для полного приема сообщения.</p>
+<p>Возвращает массив байтов, представляющий принятое сообщение.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service.Service.__recvall">
+<span class="sig-name descname"><span class="pre">__recvall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytearray</span></span></span><a class="headerlink" href="#service.Service.__recvall" title="Link to this definition">¶</a></dt>
+<dd><p>Приватный метод для полного приема данных из сокета.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p><cite>sock (socket)</cite> — Сокет, из которого происходит прием данных.</p></li>
+<li><p><cite>n (int)</cite> — Количество байтов, которое необходимо принять.</p></li>
+</ul>
+<p>Внутренний цикл продолжается, пока не будет принято указанное количество байтов.
+Каждый полученный пакет данных добавляется к общему массиву данных.</p>
+<p>Возвращает массив байтов, представляющий полностью принятые данные.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service.Service.__send_msg">
+<span class="sig-name descname"><span class="pre">__send_msg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#service.Service.__send_msg" title="Link to this definition">¶</a></dt>
+<dd><p>Приватный метод для отправки сообщения в сокет.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p><cite>sock (socket)</cite> — Сокет, в который происходит отправка сообщения.</p></li>
+<li><p><a href="#id1"><span class="problematic" id="id2">`</span></a>msg (bytes) — Сообщение для отправки.</p></li>
+</ul>
+<p>Упаковывает длину сообщения в 4 байта, добавляет сообщение и отправляет все данные в сокет.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service.Service._do_job">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_do_job</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#service.Service._do_job" title="Link to this definition">¶</a></dt>
+<dd><p>Абстрактный метод для выполнения конкретной задачи сервиса. Должен быть переопределен.</p>
+<p>Реализация этого метода должна содержать логику выполнения работы сервиса.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service.Service._request_handler">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_request_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#service.Service._request_handler" title="Link to this definition">¶</a></dt>
+<dd><p>Абстрактный метод для обработки запросов от клиентов.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p><cite>request</cite> — Запрос, полученный от клиента.</p></li>
+</ul>
+<p>Возвращает результат обработки запроса.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service.Service._run_client">
+<span class="sig-name descname"><span class="pre">_run_client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response_handler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#service.Service._run_client" title="Link to this definition">¶</a></dt>
+<dd><p>Метод для запуска клиента и отправки запроса на сервер.
+:Параметры:
+- <cite>ip (str)</cite> — IP-адрес сервера.
+- <cite>port (int)</cite> — Порт сервера.
+- <cite>request (str)</cite> — Запрос для отправки на сервер.
+- <cite>response_handler (Callable[[str], None], необязательно)</cite> — Обработчик ответа от сервера.
+Создает сокет клиента, подключается к серверу, отправляет запрос и ожидает ответа.
+Если предоставлен обработчик ответа, вызывает его с полученным ответом.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service.Service.pause">
+<span class="sig-name descname"><span class="pre">pause</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#service.Service.pause" title="Link to this definition">¶</a></dt>
+<dd><p>Метод для приостановки выполнения работы.</p>
+<p>Устанавливает флаг <cite>need_job_pause</cite> в False.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service.Service.restart">
+<span class="sig-name descname"><span class="pre">restart</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#service.Service.restart" title="Link to this definition">¶</a></dt>
+<dd><p>Метод для перезапуска сервера.</p>
+<p>Инициализирует параметры для нового запуска, затем вызывает метод <cite>start</cite> для запуска сервера.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service.Service.run_client">
+<span class="sig-name descname"><span class="pre">run_client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response_handler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#service.Service.run_client" title="Link to this definition">¶</a></dt>
+<dd><p>Метод для запуска клиента в отдельном потоке.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p><cite>ip (str)</cite> — IP-адрес сервера.</p></li>
+<li><p><cite>port (int)</cite> — Порт сервера.</p></li>
+<li><p><cite>request (str)</cite> — Запрос для отправки на сервер.</p></li>
+<li><p><cite>response_handler (Callable, необязательно)</cite> — Обработчик ответа от сервера.</p></li>
+</ul>
+<p>Создает новый поток для выполнения <cite>_run_client</cite> с указанными параметрами.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service.Service.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#service.Service.start" title="Link to this definition">¶</a></dt>
+<dd><p>Метод для запуска сервера.</p>
+<p>Инициализирует все необходимые параметры, создает сокет сервера и запускает потоки
+для выполнения работы сервиса, управления клиентами и прослушивания новых подключений.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service.Service.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#service.Service.stop" title="Link to this definition">¶</a></dt>
+<dd><p>Метод для остановки сервера.</p>
+<p>Устанавливает флаги <cite>server_is_open</cite> и <cite>need_job_break</cite> в False для завершения циклов,
+управляющих сервером и выполнением работы.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service.Service.unpause">
+<span class="sig-name descname"><span class="pre">unpause</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#service.Service.unpause" title="Link to this definition">¶</a></dt>
+<dd><p>Метод для возобновления выполнения работы.</p>
+<p>Устанавливает флаг <cite>need_job_pause</cite> в True.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Gesture_recognition_service</a></h1>
+
+
+
+
+
+
+
+
+<h3>Навигация</h3>
+<p class="caption" role="heading"><span class="caption-text">Контент:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Модуль service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#service.Service"><code class="docutils literal notranslate"><span class="pre">Service</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="service_gr.html">Модуль service_gr</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cam.html">Модуль cam</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="предыдущая глава">Добро пожаловать в документацию сервиса по распознаванию жестов!</a></li>
+      <li>Next: <a href="service_gr.html" title="следующая глава">Модуль service_gr</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Быстрый поиск</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Искать" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Belous V..
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/service.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
