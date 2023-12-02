@@ -3,7 +3,7 @@ name: Build and Deploy Documentation
 on:
   push:
     branches:
-      - main  # Измените на вашу основную ветку
+      - gh-pages  # Измените на вашу основную ветку
 
 jobs:
   build:
@@ -34,4 +34,3 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: _build/html  # Измените на ваш каталог с сгенерированной документацией
-        publish_branch: gh-pages
