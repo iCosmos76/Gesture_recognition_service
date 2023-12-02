@@ -1,0 +1,37 @@
+name: Build and Deploy Documentation
+
+on:
+  push:
+    branches:
+      - main  # Измените на вашу основную ветку
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x  # Выберите версию Python, которую использует ваш проект
+
+    - name: Install Dependencies
+      run: |
+        cd docs/
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt  # Замените на ваш файл зависимостей
+
+    - name: Build Documentation
+      run: |
+        cd docs/
+        make html
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: _build/html  # Измените на ваш каталог с сгенерированной документацией
+        publish_branch: gh-pages
