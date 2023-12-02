@@ -7,7 +7,7 @@
 2. Создать виртуальное окружение: python -m venv путь_до_окружения (пример пути: c:\path\to\myenv)
 3. Активировать окружение: путь_до_окружения\Scripts\activate
 4. Выполнить команду: pip install -r requirements.txt
-5. Загрузить веса модели в папку проекта по ссылке: https://disk.yandex.ru/d/zBgwPO1SKkC_0A 
+5. Загрузить веса модели в папку сервиса по ссылке: https://disk.yandex.ru/d/zBgwPO1SKkC_0A 
 
 #### Работа с сервисом
 
