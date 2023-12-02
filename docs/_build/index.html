@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="ru" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>документация Gesture_recognition_service 0.1</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=b692e295"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/translations.js?v=29b1f277"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Алфавитный указатель" href="genindex.html" />
+    <link rel="search" title="Поиск" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            Gesture_recognition_service
+          </a>
+              <div class="version">
+                0.1.0
+              </div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Меню навигации">
+              <p class="caption" role="heading"><span class="caption-text">Контент:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-service">Модуль service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#service.Service"><code class="docutils literal notranslate"><span class="pre">Service</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="index.html#service.Service.__init__"><code class="docutils literal notranslate"><span class="pre">Service.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#service.Service.__manage_clients"><code class="docutils literal notranslate"><span class="pre">Service.__manage_clients()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#service.Service.__recv_msg"><code class="docutils literal notranslate"><span class="pre">Service.__recv_msg()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#service.Service.__recvall"><code class="docutils literal notranslate"><span class="pre">Service.__recvall()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#service.Service.__send_msg"><code class="docutils literal notranslate"><span class="pre">Service.__send_msg()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#service.Service._do_job"><code class="docutils literal notranslate"><span class="pre">Service._do_job()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#service.Service._request_handler"><code class="docutils literal notranslate"><span class="pre">Service._request_handler()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#service.Service._run_client"><code class="docutils literal notranslate"><span class="pre">Service._run_client()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#service.Service.pause"><code class="docutils literal notranslate"><span class="pre">Service.pause()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#service.Service.restart"><code class="docutils literal notranslate"><span class="pre">Service.restart()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#service.Service.run_client"><code class="docutils literal notranslate"><span class="pre">Service.run_client()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#service.Service.start"><code class="docutils literal notranslate"><span class="pre">Service.start()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#service.Service.stop"><code class="docutils literal notranslate"><span class="pre">Service.stop()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#service.Service.unpause"><code class="docutils literal notranslate"><span class="pre">Service.unpause()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-service_gr">Модуль service_gr</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#service_gr.ServiceGR"><code class="docutils literal notranslate"><span class="pre">ServiceGR</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="index.html#service_gr.ServiceGR.__init_vars"><code class="docutils literal notranslate"><span class="pre">ServiceGR.__init_vars()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#service_gr.ServiceGR.__resp_hand"><code class="docutils literal notranslate"><span class="pre">ServiceGR.__resp_hand()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#service_gr.ServiceGR.__specific_work"><code class="docutils literal notranslate"><span class="pre">ServiceGR.__specific_work()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#service_gr.ServiceGR._do_job"><code class="docutils literal notranslate"><span class="pre">ServiceGR._do_job()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#service_gr.ServiceGR._request_handler"><code class="docutils literal notranslate"><span class="pre">ServiceGR._request_handler()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-cam">Модуль cam</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#cam.Camera"><code class="docutils literal notranslate"><span class="pre">Camera</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="index.html#cam.Camera.__init__"><code class="docutils literal notranslate"><span class="pre">Camera.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#cam.Camera.getFrame"><code class="docutils literal notranslate"><span class="pre">Camera.getFrame()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#cam.Camera.rtsp_cam_buffer"><code class="docutils literal notranslate"><span class="pre">Camera.rtsp_cam_buffer()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Меню навигации для мобильных устройств" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Gesture_recognition_service</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Навигация по страницам">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">документация Gesture_recognition_service 0.1</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>Добро пожаловать в документацию сервиса по распознаванию жестов!<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<span id="document-service"></span><section id="service">
+<h2>Модуль service<a class="headerlink" href="#service" title="Link to this heading"></a></h2>
+<dl class="py class" id="module-service">
+<dt class="sig sig-object py" id="service.Service">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">service.</span></span><span class="sig-name descname"><span class="pre">Service</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_conn_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#service.Service" title="Link to this definition"></a></dt>
+<dd><p>Абстрактный базовый класс, представляющий собой общий сервис.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p><cite>ip_ (str)</cite> — IP-адрес для привязки сервиса.</p></li>
+<li><p><cite>port_ (int)</cite> — Номер порта для привязки сервиса.</p></li>
+<li><p><cite>n_conn_ (int, необязательно)</cite> — Максимальное количество разрешенных подключений (по умолчанию - 10).</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Атрибуты<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p><cite>ip (str)</cite> — IP-адрес сервиса.</p></li>
+<li><p><cite>port (int)</cite> — Номер порта сервиса.</p></li>
+<li><p><cite>n_conn (int)</cite> — Максимальное количество разрешенных подключений.</p></li>
+<li><p><cite>timeout (int)</cite> — Значение времени ожидания для операций сокета (по умолчанию - 3 секунды).</p></li>
+<li><p><cite>need_job_break (bool)</cite> — Флаг, указывающий, нужно ли сервису прекратить обработку задач.</p></li>
+<li><p><cite>need_job_pause (bool)</cite> — Флаг, указывающий, нужно ли сервису приостановить обработку задач.</p></li>
+<li><p><cite>server_is_open (bool)</cite> — Флаг, указывающий, открыт ли сервер.</p></li>
+<li><p><cite>need_restart (bool)</cite> — Флаг, указывающий, нужно ли сервису перезапуститься.</p></li>
+<li><p><cite>server (socket.socket)</cite> — Объект сокета для взаимодействия.</p></li>
+<li><p><cite>connected_clients (list)</cite> — Список подключенных сокетов клиентов.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Методы<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p><cite>__init__(self, ip_, port_, n_conn_)</cite> — Конструктор класса.</p></li>
+<li><p><cite>__recvall(self, sock, n) -&gt; bytearray</cite> — Приватный метод для приема определенного количества байтов из сокета.</p></li>
+<li><p><cite>__recv_msg(self, sock) -&gt; bytearray</cite> — Приватный метод для приема сообщения из сокета.</p></li>
+<li><p><cite>__send_msg(self, sock, msg) -&gt; None</cite> — Приватный метод для отправки сообщения в сокет.</p></li>
+<li><p><cite>__manage_clients(self) -&gt; None</cite> — Приватный метод для управления подключенными клиентами.</p></li>
+<li><p><cite>_do_job(self)</cite> — Абстрактный метод для выполнения конкретной задачи сервиса. Должен быть переопределен.</p></li>
+<li><p><cite>_request_handler(self, request)</cite> — Абстрактный метод для обработки запросов от клиентов.</p></li>
+<li><p><cite>_run_client(self, ip, port, request, response_handler) -&gt; None</cite> — Метод для запуска клиента и отправки запроса на сервер.</p></li>
+<li><p><cite>run_client(self, ip, port, request, response_handler) -&gt; None</cite> — Метод для запуска клиента в отдельном потоке.</p></li>
+<li><p><cite>start(self) -&gt; None</cite> — Метод для запуска сервера.</p></li>
+<li><p><cite>stop(self) -&gt; None</cite> — Метод для остановки сервера.</p></li>
+<li><p><cite>pause(self) -&gt; None</cite> — Метод для приостановки выполнения работы.</p></li>
+<li><p><cite>unpause(self) -&gt; None</cite> — Метод для возобновления выполнения работы.</p></li>
+<li><p><cite>restart(self) -&gt; None</cite> — Метод для перезапуска сервера.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Примечание<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<p>Этот класс служит абстрактным базовым классом и должен быть унаследован для реализации конкретной функциональности сервиса.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="service.Service.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_conn_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#service.Service.__init__" title="Link to this definition"></a></dt>
+<dd><p>Конструктор класса.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service.Service.__manage_clients">
+<span class="sig-name descname"><span class="pre">__manage_clients</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#service.Service.__manage_clients" title="Link to this definition"></a></dt>
+<dd><p>Приватный метод для управления подключенными клиентами.</p>
+<p>Внутренний цикл обрабатывает запросы от клиентов, основываясь на полученных данных.
+Если нет подключенных клиентов и сервер закрыт, цикл завершается.
+Если нет подключенных клиентов, происходит продолжение цикла.
+Для каждого подключенного клиента извлекается запрос и обрабатывается в соответствии с логикой:</p>
+<ul class="simple">
+<li><p><cite>disable</cite> — приостанавливает сервис и отправляет подтверждение клиенту.</p></li>
+<li><p><cite>enable</cite> — возобновляет сервис и отправляет подтверждение клиенту.</p></li>
+<li><p><cite>close</cite> или <cite>restart</cite> — останавливает сервис, добавляет соответствующую команду в список, отправляет подтверждение клиенту.</p></li>
+</ul>
+<p>В остальных случаях вызывается метод обработки запроса <cite>_request_handler</cite> и результат отправляется клиенту.</p>
+<p>При возникновении исключения выводится сообщение об ошибке, и клиентский сокет закрывается.</p>
+<p>Если в списке команд закрытия есть «restart», устанавливается флаг <cite>need_restart</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service.Service.__recv_msg">
+<span class="sig-name descname"><span class="pre">__recv_msg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sock</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytearray</span></span></span><a class="headerlink" href="#service.Service.__recv_msg" title="Link to this definition"></a></dt>
+<dd><p>Приватный метод для приема сообщения из сокета.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p><cite>sock (socket)</cite> — Сокет, из которого происходит прием сообщения.</p></li>
+</ul>
+<p>Получает длину сообщения из первых 4 байтов, затем вызывает <cite>__recvall</cite> для полного приема сообщения.</p>
+<p>Возвращает массив байтов, представляющий принятое сообщение.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service.Service.__recvall">
+<span class="sig-name descname"><span class="pre">__recvall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytearray</span></span></span><a class="headerlink" href="#service.Service.__recvall" title="Link to this definition"></a></dt>
+<dd><p>Приватный метод для полного приема данных из сокета.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p><cite>sock (socket)</cite> — Сокет, из которого происходит прием данных.</p></li>
+<li><p><cite>n (int)</cite> — Количество байтов, которое необходимо принять.</p></li>
+</ul>
+<p>Внутренний цикл продолжается, пока не будет принято указанное количество байтов.
+Каждый полученный пакет данных добавляется к общему массиву данных.</p>
+<p>Возвращает массив байтов, представляющий полностью принятые данные.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service.Service.__send_msg">
+<span class="sig-name descname"><span class="pre">__send_msg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#service.Service.__send_msg" title="Link to this definition"></a></dt>
+<dd><p>Приватный метод для отправки сообщения в сокет.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p><cite>sock (socket)</cite> — Сокет, в который происходит отправка сообщения.</p></li>
+<li><p><a href="#id1"><span class="problematic" id="id2">`</span></a>msg (bytes) — Сообщение для отправки.</p></li>
+</ul>
+<p>Упаковывает длину сообщения в 4 байта, добавляет сообщение и отправляет все данные в сокет.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service.Service._do_job">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_do_job</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#service.Service._do_job" title="Link to this definition"></a></dt>
+<dd><p>Абстрактный метод для выполнения конкретной задачи сервиса. Должен быть переопределен.</p>
+<p>Реализация этого метода должна содержать логику выполнения работы сервиса.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service.Service._request_handler">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_request_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#service.Service._request_handler" title="Link to this definition"></a></dt>
+<dd><p>Абстрактный метод для обработки запросов от клиентов.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p><cite>request</cite> — Запрос, полученный от клиента.</p></li>
+</ul>
+<p>Возвращает результат обработки запроса.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service.Service._run_client">
+<span class="sig-name descname"><span class="pre">_run_client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response_handler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#service.Service._run_client" title="Link to this definition"></a></dt>
+<dd><p>Метод для запуска клиента и отправки запроса на сервер.
+:Параметры:
+- <cite>ip (str)</cite> — IP-адрес сервера.
+- <cite>port (int)</cite> — Порт сервера.
+- <cite>request (str)</cite> — Запрос для отправки на сервер.
+- <cite>response_handler (Callable[[str], None], необязательно)</cite> — Обработчик ответа от сервера.
+Создает сокет клиента, подключается к серверу, отправляет запрос и ожидает ответа.
+Если предоставлен обработчик ответа, вызывает его с полученным ответом.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service.Service.pause">
+<span class="sig-name descname"><span class="pre">pause</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#service.Service.pause" title="Link to this definition"></a></dt>
+<dd><p>Метод для приостановки выполнения работы.</p>
+<p>Устанавливает флаг <cite>need_job_pause</cite> в False.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service.Service.restart">
+<span class="sig-name descname"><span class="pre">restart</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#service.Service.restart" title="Link to this definition"></a></dt>
+<dd><p>Метод для перезапуска сервера.</p>
+<p>Инициализирует параметры для нового запуска, затем вызывает метод <cite>start</cite> для запуска сервера.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service.Service.run_client">
+<span class="sig-name descname"><span class="pre">run_client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response_handler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#service.Service.run_client" title="Link to this definition"></a></dt>
+<dd><p>Метод для запуска клиента в отдельном потоке.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p><cite>ip (str)</cite> — IP-адрес сервера.</p></li>
+<li><p><cite>port (int)</cite> — Порт сервера.</p></li>
+<li><p><cite>request (str)</cite> — Запрос для отправки на сервер.</p></li>
+<li><p><cite>response_handler (Callable, необязательно)</cite> — Обработчик ответа от сервера.</p></li>
+</ul>
+<p>Создает новый поток для выполнения <cite>_run_client</cite> с указанными параметрами.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service.Service.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#service.Service.start" title="Link to this definition"></a></dt>
+<dd><p>Метод для запуска сервера.</p>
+<p>Инициализирует все необходимые параметры, создает сокет сервера и запускает потоки
+для выполнения работы сервиса, управления клиентами и прослушивания новых подключений.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service.Service.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#service.Service.stop" title="Link to this definition"></a></dt>
+<dd><p>Метод для остановки сервера.</p>
+<p>Устанавливает флаги <cite>server_is_open</cite> и <cite>need_job_break</cite> в False для завершения циклов,
+управляющих сервером и выполнением работы.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service.Service.unpause">
+<span class="sig-name descname"><span class="pre">unpause</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#service.Service.unpause" title="Link to this definition"></a></dt>
+<dd><p>Метод для возобновления выполнения работы.</p>
+<p>Устанавливает флаг <cite>need_job_pause</cite> в True.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<span id="document-service_gr"></span><section id="service-gr">
+<h2>Модуль service_gr<a class="headerlink" href="#service-gr" title="Link to this heading"></a></h2>
+<dl class="py class" id="module-service_gr">
+<dt class="sig sig-object py" id="service_gr.ServiceGR">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">service_gr.</span></span><span class="sig-name descname"><span class="pre">ServiceGR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_conn_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#service_gr.ServiceGR" title="Link to this definition"></a></dt>
+<dd><p>Этот класс расширяет базовый класс Service и реализует конкретную логику обработки задач,
+связанных с распознаванием жестов с использованием видеопотока с камеры.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Атрибуты<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p><cite>_classNames</cite> —  Список названий классов жестов.</p></li>
+<li><p><cite>_model</cite> —  Модель YOLO для распознавания жестов.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Методы<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p><cite>_do_job(self)</cite> — Реализует основной цикл работы, захватывая кадры с камеры, выполняя распознавание жестов и взаимодействуя с внешними серверами на основе распознанных жестов.</p></li>
+<li><p><cite>__init_vars(self)</cite> — Инициализирует внутренние переменные, такие как названия классов жестов и модель YOLO.</p></li>
+<li><p><cite>__specific_work(self)</cite> — Выполняет конкретную работу по распознаванию жестов с использованием модели YOLO.</p></li>
+<li><p><cite>__resp_hand(self, response)</cite> — Обрабатывает ответы от внешних серверов.</p></li>
+<li><p><cite>_request_handler(request: str) -&gt; str</cite> — Обрабатывает запросы на включение, отключение, закрытие или перезапуск службы.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Примечание<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p>Метод <cite>_do_job</cite> содержит цикл, который непрерывно захватывает кадры, выполняет
+распознавание жестов и взаимодействует с внешними серверами. Цикл может быть прерван
+установкой <cite>need_job_break</cite> в True или приостановлен установкой <cite>need_job_pause</cite> в False.</p></li>
+<li><p>Ожидается, что файл модели YOLO «best.onnx» находится в том же каталоге, что и скрипт.</p></li>
+<li><p>Результаты распознавания жестов отображаются с использованием OpenCV в окне с заголовком «Gesture recognition».</p></li>
+<li><p>Класс поддерживает обработку конкретных жестов, таких как «Hello» и «Goodbye»,
+взаимодействуя с серверами распознавания речи.</p></li>
+</ul>
+<p>Использование:
+<code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">service</span> <span class="pre">=</span> <span class="pre">ServiceGR()</span>
+<span class="pre">service.start()</span>&#160; <span class="pre">#</span> <span class="pre">Запустить</span> <span class="pre">службу,</span> <span class="pre">инициируя</span> <span class="pre">цикл</span> <span class="pre">распознавания</span> <span class="pre">жестов.</span>
+<span class="pre">`</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="service_gr.ServiceGR.__init_vars">
+<span class="sig-name descname"><span class="pre">__init_vars</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#service_gr.ServiceGR.__init_vars" title="Link to this definition"></a></dt>
+<dd><p>Инициализирует внутренние переменные класса ServiceGR.</p>
+<p>Устанавливает список <cite>_classNames</cite> с названиями классов жестов и загружает модель YOLO из файла «best.onnx».</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service_gr.ServiceGR.__resp_hand">
+<span class="sig-name descname"><span class="pre">__resp_hand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#service_gr.ServiceGR.__resp_hand" title="Link to this definition"></a></dt>
+<dd><p>Обрабатывает ответ от внешних сервисов.</p>
+<p>Выводит в консоль сообщение о полученном ответе и IP-адресе сервера.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service_gr.ServiceGR.__specific_work">
+<span class="sig-name descname"><span class="pre">__specific_work</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#service_gr.ServiceGR.__specific_work" title="Link to this definition"></a></dt>
+<dd><p>Выполняет конкретную работу по распознаванию жестов с использованием модели YOLO.</p>
+<p>Метод передает текущий кадр в модель YOLO и обрабатывает результаты распознавания.
+Если распознан какой-либо жест, то отображает аннотированный кадр с результатами и возвращает
+строку с названием распознанного класса жеста. В случае, если жест не распознан, возвращает
+строку «Class wasn’t recognised».</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service_gr.ServiceGR._do_job">
+<span class="sig-name descname"><span class="pre">_do_job</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#service_gr.ServiceGR._do_job" title="Link to this definition"></a></dt>
+<dd><p>Реализует основной цикл работы сервиса по распознаванию жестов.</p>
+<p>Метод начинает выполнение, захватывая кадры с камеры и инициализируя необходимые переменные.
+Далее запускается бесконечный цикл, в котором происходит следующее:</p>
+<ol class="arabic simple">
+<li><p>Проверяется флаг <cite>need_job_break</cite>. Если он установлен в True, цикл прерывается, и выполнение метода завершается.</p></li>
+<li><p>Проверяется флаг <cite>need_job_pause</cite>. Если он установлен в False, цикл останавливается, и выполнение метода
+приостанавливается, ожидая изменения значения флага.</p></li>
+<li><p>Захватывается кадр с камеры, проверяется его корректность, и обрабатывается для дальнейшего использования.</p></li>
+<li><p>Выполняется распознавание жестов с использованием метода <cite>__specific_work</cite>, который использует модель YOLO.</p></li>
+<li><p>В зависимости от распознанного жеста, инициируется взаимодействие с внешними серверами:
+- Если жест распознан как «Hello» или «Goodbye», выполняется запрос к серверу распознавания речи.
+- В противном случае, выполняется запрос к серверу управления движениями.</p></li>
+<li><p>В окне с заголовком «Gesture recognition» с использованием OpenCV отображаются результаты распознавания.</p></li>
+<li><p>Если нажата клавиша „q“, цикл прерывается, и метод завершает выполнение.</p></li>
+</ol>
+<p>Наконец, в блоке <cite>finally</cite> закрываются окна OpenCV, и вызывается метод <cite>stop</cite> для завершения работы сервиса.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="service_gr.ServiceGR._request_handler">
+<span class="sig-name descname"><span class="pre">_request_handler</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#service_gr.ServiceGR._request_handler" title="Link to this definition"></a></dt>
+<dd><p>Обрабатывает запросы, поступающие от внешних источников.</p>
+<p>В зависимости от значения запроса, возвращает соответствующий ответ.</p>
+<p>Аргументы:
+- <cite>request</cite> — Строка с запросом.</p>
+<p>Возвращает:
+Строка с ответом на запрос.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<span id="document-cam"></span><section id="module-cam">
+<span id="cam"></span><h2>Модуль cam<a class="headerlink" href="#module-cam" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="cam.Camera">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cam.</span></span><span class="sig-name descname"><span class="pre">Camera</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rtsp_link</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cam.Camera" title="Link to this definition"></a></dt>
+<dd><p>Класс для работы с камерой и получения изображений.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Атрибуты<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p><cite>last_frame</cite> — Последний захваченный кадр с камеры.</p></li>
+<li><p><cite>last_ready</cite> — Флаг, указывающий, что последний кадр готов для использования.</p></li>
+<li><p><cite>lock</cite> — Объект блокировки для обеспечения безопасности многопоточного доступа.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Методы<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<ul class="simple">
+<li><p><cite>__init__(self, rtsp_link)</cite> — Конструктор класса, инициализирует объект камеры и запускает поток для чтения RTSP-потока.</p></li>
+<li><p><cite>rtsp_cam_buffer(self, capture)</cite> — Приватный метод для буферизации кадров из RTSP-потока.</p></li>
+<li><p><cite>getFrame(self)</cite> — Метод для получения последнего готового кадра из камеры.</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="cam.Camera.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rtsp_link</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cam.Camera.__init__" title="Link to this definition"></a></dt>
+<dd><p>Конструктор класса.</p>
+<p>Параметры:
+- <cite>rtsp_link</cite> (str) — Ссылка на RTSP-поток.</p>
+<p>Инициализирует объект камеры, создает объект захвата кадров и запускает поток чтения RTSP-потока.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cam.Camera.getFrame">
+<span class="sig-name descname"><span class="pre">getFrame</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cam.Camera.getFrame" title="Link to this definition"></a></dt>
+<dd><p>Метод для получения последнего готового кадра из камеры.</p>
+<p>Возвращает копию последнего готового кадра, если он доступен, иначе возвращает None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cam.Camera.rtsp_cam_buffer">
+<span class="sig-name descname"><span class="pre">rtsp_cam_buffer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">capture</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cam.Camera.rtsp_cam_buffer" title="Link to this definition"></a></dt>
+<dd><p>Приватный метод для буферизации кадров из RTSP-потока.</p>
+<p>Параметры:
+- <cite>capture</cite> (cv2.VideoCapture) — Объект захвата кадров.</p>
+<p>В бесконечном цикле с использованием блокировки обновляет последний готовый кадр и последний кадр с камеры.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</div>
+</section>
+<section id="id2">
+<h1>Индексы и таблицы<a class="headerlink" href="#id2" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Алфавитный указатель</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Состав модуля</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Поиск</span></a></p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Авторские права 2023, Belous V.. </p>
+  </div>
+
+  Собрано при помощи <a href="https://www.sphinx-doc.org/">Sphinx</a> с использованием
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">темы,</a>
+    предоставленной <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
