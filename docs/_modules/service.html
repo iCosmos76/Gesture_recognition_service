@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="ru" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>service &mdash; документация Gesture_recognition_service 0.1</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=490fdf2e"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/translations.js?v=29b1f277"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Алфавитный указатель" href="../genindex.html" />
+    <link rel="search" title="Поиск" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Gesture_recognition_service
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Поиск в документации" aria-label="Поиск в документации" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Меню навигации">
+              <p class="caption" role="heading"><span class="caption-text">Контент:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../service.html">Модуль service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../service_gr.html">Модуль service_gr</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cam.html">Модуль cam</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Меню навигации для мобильных устройств" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Gesture_recognition_service</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Навигация по страницам">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Код модуля</a></li>
+      <li class="breadcrumb-item active">service</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Исходный код service</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">import</span> <span class="nn">struct</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Callable</span>
+
+
+<div class="viewcode-block" id="Service">
+<a class="viewcode-back" href="../service.html#service.Service">[документация]</a>
+<span class="k">class</span> <span class="nc">Service</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Абстрактный базовый класс, представляющий собой общий сервис.</span>
+<span class="sd">    </span>
+<span class="sd">    :Параметры:</span>
+<span class="sd">    - `ip_ (str)` — IP-адрес для привязки сервиса. </span>
+<span class="sd">    - `port_ (int)` — Номер порта для привязки сервиса.</span>
+<span class="sd">    - `n_conn_ (int, необязательно)` — Максимальное количество разрешенных подключений (по умолчанию - 10).</span>
+<span class="sd">    </span>
+<span class="sd">    :Атрибуты:</span>
+<span class="sd">    - `ip (str)` — IP-адрес сервиса.</span>
+<span class="sd">    - `port (int)` — Номер порта сервиса.</span>
+<span class="sd">    - `n_conn (int)` — Максимальное количество разрешенных подключений.</span>
+<span class="sd">    - `timeout (int)` — Значение времени ожидания для операций сокета (по умолчанию - 3 секунды).</span>
+<span class="sd">    - `need_job_break (bool)` — Флаг, указывающий, нужно ли сервису прекратить обработку задач.</span>
+<span class="sd">    - `need_job_pause (bool)` — Флаг, указывающий, нужно ли сервису приостановить обработку задач.</span>
+<span class="sd">    - `server_is_open (bool)` — Флаг, указывающий, открыт ли сервер.</span>
+<span class="sd">    - `need_restart (bool)` — Флаг, указывающий, нужно ли сервису перезапуститься.</span>
+<span class="sd">    - `server (socket.socket)` — Объект сокета для взаимодействия.</span>
+<span class="sd">    - `connected_clients (list)` — Список подключенных сокетов клиентов.</span>
+<span class="sd">    </span>
+<span class="sd">    :Методы:</span>
+<span class="sd">    - `__init__(self, ip_, port_, n_conn_)` — Конструктор класса.</span>
+<span class="sd">    - `__recvall(self, sock, n) -&gt; bytearray` — Приватный метод для приема определенного количества байтов из сокета.</span>
+<span class="sd">    - `__recv_msg(self, sock) -&gt; bytearray` — Приватный метод для приема сообщения из сокета.</span>
+<span class="sd">    - `__send_msg(self, sock, msg) -&gt; None` — Приватный метод для отправки сообщения в сокет.</span>
+<span class="sd">    - `__manage_clients(self) -&gt; None` — Приватный метод для управления подключенными клиентами.</span>
+<span class="sd">    - `_do_job(self)` — Абстрактный метод для выполнения конкретной задачи сервиса. Должен быть переопределен.</span>
+<span class="sd">    - `_request_handler(self, request)` — Абстрактный метод для обработки запросов от клиентов.</span>
+<span class="sd">    - `_run_client(self, ip, port, request, response_handler) -&gt; None` — Метод для запуска клиента и отправки запроса на сервер.</span>
+<span class="sd">    - `run_client(self, ip, port, request, response_handler) -&gt; None` — Метод для запуска клиента в отдельном потоке.</span>
+<span class="sd">    - `start(self) -&gt; None` — Метод для запуска сервера.</span>
+<span class="sd">    - `stop(self) -&gt; None` — Метод для остановки сервера.</span>
+<span class="sd">    - `pause(self) -&gt; None` — Метод для приостановки выполнения работы.</span>
+<span class="sd">    - `unpause(self) -&gt; None` — Метод для возобновления выполнения работы.</span>
+<span class="sd">    - `restart(self) -&gt; None` — Метод для перезапуска сервера.</span>
+<span class="sd">    :Примечание:</span>
+<span class="sd">    Этот класс служит абстрактным базовым классом и должен быть унаследован для реализации конкретной функциональности сервиса.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="Service.__init__">
+<a class="viewcode-back" href="../service.html#service.Service.__init__">[документация]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ip_</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">port_</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n_conn_</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Конструктор класса.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ip</span> <span class="o">=</span> <span class="n">ip_</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">port_</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_conn</span> <span class="o">=</span> <span class="n">n_conn_</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">need_job_break</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">need_job_pause</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">server_is_open</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">need_restart</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">server</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connected_clients</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+
+    <span class="k">def</span> <span class="nf">__recvall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sock</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytearray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Приватный метод для полного приема данных из сокета.</span>
+
+<span class="sd">        :Параметры:</span>
+<span class="sd">        - `sock (socket)` — Сокет, из которого происходит прием данных.</span>
+<span class="sd">        - `n (int)` — Количество байтов, которое необходимо принять.</span>
+
+<span class="sd">        Внутренний цикл продолжается, пока не будет принято указанное количество байтов.</span>
+<span class="sd">        Каждый полученный пакет данных добавляется к общему массиву данных.</span>
+
+<span class="sd">        Возвращает массив байтов, представляющий полностью принятые данные.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">()</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
+            <span class="n">packet</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">packet</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">packet</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span>
+
+
+    <span class="k">def</span> <span class="nf">__recv_msg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sock</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytearray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Приватный метод для приема сообщения из сокета.</span>
+
+<span class="sd">        :Параметры:</span>
+<span class="sd">        - `sock (socket)` — Сокет, из которого происходит прием сообщения.</span>
+
+<span class="sd">        Получает длину сообщения из первых 4 байтов, затем вызывает `__recvall` для полного приема сообщения.</span>
+
+<span class="sd">        Возвращает массив байтов, представляющий принятое сообщение.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">raw_msglen</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__recvall</span><span class="p">(</span><span class="n">sock</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">raw_msglen</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">bytearray</span><span class="p">()</span>
+        <span class="n">msglen</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&gt;I&#39;</span><span class="p">,</span> <span class="n">raw_msglen</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__recvall</span><span class="p">(</span><span class="n">sock</span><span class="p">,</span> <span class="n">msglen</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__send_msg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sock</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Приватный метод для отправки сообщения в сокет.</span>
+
+<span class="sd">        :Параметры:</span>
+<span class="sd">        - `sock (socket)` — Сокет, в который происходит отправка сообщения.</span>
+<span class="sd">        - `msg (bytes) — Сообщение для отправки.</span>
+
+<span class="sd">        Упаковывает длину сообщения в 4 байта, добавляет сообщение и отправляет все данные в сокет.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&gt;I&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="p">))</span> <span class="o">+</span> <span class="n">msg</span>
+        <span class="n">sock</span><span class="o">.</span><span class="n">sendall</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">__manage_clients</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Приватный метод для управления подключенными клиентами.</span>
+
+<span class="sd">        Внутренний цикл обрабатывает запросы от клиентов, основываясь на полученных данных.</span>
+<span class="sd">        Если нет подключенных клиентов и сервер закрыт, цикл завершается.</span>
+<span class="sd">        Если нет подключенных клиентов, происходит продолжение цикла.</span>
+<span class="sd">        Для каждого подключенного клиента извлекается запрос и обрабатывается в соответствии с логикой:\n</span>
+<span class="sd">        - `disable` — приостанавливает сервис и отправляет подтверждение клиенту. \n</span>
+<span class="sd">        - `enable` — возобновляет сервис и отправляет подтверждение клиенту. \n</span>
+<span class="sd">        - `close` или `restart` — останавливает сервис, добавляет соответствующую команду в список, отправляет подтверждение клиенту.</span>
+<span class="sd">        В остальных случаях вызывается метод обработки запроса `_request_handler` и результат отправляется клиенту.</span>
+<span class="sd">        </span>
+<span class="sd">        При возникновении исключения выводится сообщение об ошибке, и клиентский сокет закрывается.</span>
+
+<span class="sd">        Если в списке команд закрытия есть &quot;restart&quot;, устанавливается флаг `need_restart`.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">service_closing_commands</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connected_clients</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">server_is_open</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connected_clients</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">connected_clients</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">client_socket</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connected_clients</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">connected_clients</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">request</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__recv_msg</span><span class="p">(</span><span class="n">client_socket</span><span class="p">)</span>
+                    <span class="n">request</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Received: </span><span class="si">{</span><span class="n">request</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;disable&quot;</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">pause</span><span class="p">()</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">__send_msg</span><span class="p">(</span><span class="n">client_socket</span><span class="p">,</span> <span class="s2">&quot;disable success&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+                    <span class="k">elif</span> <span class="n">request</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;enable&quot;</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">unpause</span><span class="p">()</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">__send_msg</span><span class="p">(</span><span class="n">client_socket</span><span class="p">,</span> <span class="s2">&quot;enable success&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+                    <span class="k">elif</span> <span class="n">request</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;close&quot;</span> <span class="ow">or</span> <span class="n">request</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;restart&quot;</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+                        <span class="n">service_closing_commands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">__send_msg</span><span class="p">(</span><span class="n">client_socket</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;beginning &quot;</span> <span class="o">+</span> <span class="n">request</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request_handler</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">__send_msg</span><span class="p">(</span><span class="n">client_socket</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Server error when handling client: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">finally</span><span class="p">:</span>
+                    <span class="n">client_socket</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">service_closing_commands</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">service_closing_commands</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;restart&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">need_restart</span> <span class="o">=</span> <span class="kc">True</span>
+
+
+    <span class="c1"># protected:</span>
+<div class="viewcode-block" id="Service._do_job">
+<a class="viewcode-back" href="../service.html#service.Service._do_job">[документация]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_do_job</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Абстрактный метод для выполнения конкретной задачи сервиса. Должен быть переопределен.</span>
+
+<span class="sd">        Реализация этого метода должна содержать логику выполнения работы сервиса.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="Service._request_handler">
+<a class="viewcode-back" href="../service.html#service.Service._request_handler">[документация]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_request_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Абстрактный метод для обработки запросов от клиентов.</span>
+
+<span class="sd">        :Параметры:</span>
+<span class="sd">        - `request` — Запрос, полученный от клиента.</span>
+
+<span class="sd">        Возвращает результат обработки запроса.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="Service._run_client">
+<a class="viewcode-back" href="../service.html#service.Service._run_client">[документация]</a>
+    <span class="k">def</span> <span class="nf">_run_client</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ip</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                    <span class="n">response_handler</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Метод для запуска клиента и отправки запроса на сервер.</span>
+<span class="sd">        :Параметры:</span>
+<span class="sd">        - `ip (str)` — IP-адрес сервера.</span>
+<span class="sd">        - `port (int)` — Порт сервера.</span>
+<span class="sd">        - `request (str)` — Запрос для отправки на сервер.</span>
+<span class="sd">        - `response_handler (Callable[[str], None], необязательно)` — Обработчик ответа от сервера.</span>
+<span class="sd">        Создает сокет клиента, подключается к серверу, отправляет запрос и ожидает ответа.</span>
+<span class="sd">        Если предоставлен обработчик ответа, вызывает его с полученным ответом.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">global</span> <span class="n">client</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">client</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">connect</span><span class="p">((</span><span class="n">ip</span><span class="p">,</span> <span class="n">port</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__send_msg</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__recv_msg</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Received: </span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">response_handler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">response_handler</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Client error when handling client: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Connection to server closed&quot;</span><span class="p">)</span></div>
+
+
+
+    <span class="c1"># public:</span>
+<div class="viewcode-block" id="Service.run_client">
+<a class="viewcode-back" href="../service.html#service.Service.run_client">[документация]</a>
+    <span class="k">def</span> <span class="nf">run_client</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ip</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">response_handler</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Метод для запуска клиента в отдельном потоке.</span>
+
+<span class="sd">        :Параметры:</span>
+<span class="sd">        - `ip (str)` — IP-адрес сервера.</span>
+<span class="sd">        - `port (int)` — Порт сервера.</span>
+<span class="sd">        - `request (str)` — Запрос для отправки на сервер.</span>
+<span class="sd">        - `response_handler (Callable, необязательно)` — Обработчик ответа от сервера.</span>
+
+<span class="sd">        Создает новый поток для выполнения `_run_client` с указанными параметрами.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">client_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_run_client</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">ip</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">response_handler</span><span class="p">,))</span>
+        <span class="n">client_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Service.start">
+<a class="viewcode-back" href="../service.html#service.Service.start">[документация]</a>
+    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Метод для запуска сервера.</span>
+
+<span class="sd">        Инициализирует все необходимые параметры, создает сокет сервера и запускает потоки</span>
+<span class="sd">        для выполнения работы сервиса, управления клиентами и прослушивания новых подключений.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">need_job_break</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">need_job_pause</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">server_is_open</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">need_restart</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connected_clients</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">server</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">settimeout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">ip</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_conn</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Listening on </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ip</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">job_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_do_job</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">())</span>
+        <span class="n">job_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+        <span class="n">client_managing_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__manage_clients</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">())</span>
+        <span class="n">client_managing_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">server_is_open</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">client_socket</span><span class="p">,</span> <span class="n">client_address</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accepted connection from </span><span class="si">{</span><span class="n">client_address</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">client_address</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">connected_clients</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">client_socket</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">socket</span><span class="o">.</span><span class="n">timeout</span><span class="p">:</span>
+                <span class="k">pass</span>
+
+        <span class="n">client_managing_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">need_restart</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">restart</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="Service.stop">
+<a class="viewcode-back" href="../service.html#service.Service.stop">[документация]</a>
+    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Метод для остановки сервера.</span>
+
+<span class="sd">        Устанавливает флаги `server_is_open` и `need_job_break` в False для завершения циклов,</span>
+<span class="sd">        управляющих сервером и выполнением работы.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">server_is_open</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">need_job_break</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="Service.pause">
+<a class="viewcode-back" href="../service.html#service.Service.pause">[документация]</a>
+    <span class="k">def</span> <span class="nf">pause</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Метод для приостановки выполнения работы.</span>
+
+<span class="sd">        Устанавливает флаг `need_job_pause` в False.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">need_job_pause</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="Service.unpause">
+<a class="viewcode-back" href="../service.html#service.Service.unpause">[документация]</a>
+    <span class="k">def</span> <span class="nf">unpause</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Метод для возобновления выполнения работы.</span>
+
+<span class="sd">        Устанавливает флаг `need_job_pause` в True.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">need_job_pause</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="Service.restart">
+<a class="viewcode-back" href="../service.html#service.Service.restart">[документация]</a>
+    <span class="k">def</span> <span class="nf">restart</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Метод для перезапуска сервера.</span>
+
+<span class="sd">        Инициализирует параметры для нового запуска, затем вызывает метод `start` для запуска сервера.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">need_job_break</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">need_job_pause</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">server_is_open</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">need_restart</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connected_clients</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">()</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Авторские права 2023, Belous V.S.. </p>
+  </div>
+
+  Собрано при помощи <a href="https://www.sphinx-doc.org/">Sphinx</a> с использованием
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">темы,</a>
+    предоставленной <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
