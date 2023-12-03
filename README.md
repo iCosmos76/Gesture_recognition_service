@@ -19,4 +19,4 @@
 
 Методы для работы с сервисом приведены в файле list_of_methods.txt
 
-С более подробной документацией можно ознакомиться по ссылке: https://gesture-recognition-service.readthedocs.io/ru/latest/index.html
+Документация по модулям: https://gesture-recognition-service.readthedocs.io/ru/latest/index.html
