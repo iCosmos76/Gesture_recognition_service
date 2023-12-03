@@ -18,3 +18,6 @@
 #### Дополнительно
 
 Методы для работы с сервисом приведены в файле list_of_methods.txt
+
+#### Документация
+С более подробной документацией можно ознакомиться по ссылке: https://gesture-recognition-service.readthedocs.io/ru/latest/index.html
