@@ -1,1 +1,2 @@
 ultralytics==8.0.220
+onnx==1.15.0
